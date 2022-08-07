@@ -1,12 +1,13 @@
 # PRECOMPUTE SCORES
-from wordle import *
+from wordle import all_words, load_scores, best_guess_and_elimination
+from files import get_score_file, get_word_file
 
 def best_start_word(colors,holes):
     combinations = []
     inv_combinations = {}
     scores = []
-    all_words(colors,holes,combinations,inv_combinations,'/Users/mortenheinesorensen/projects/wordle/resources/Scrabble2019filtered.txt')
-    load_scores('/Users/mortenheinesorensen/projects/wordle/resources/scores.txt',scores,26,5)
+    all_words(colors,holes,combinations,inv_combinations,get_word_file())
+    load_scores(get_score_file(),scores,26,5)
     result = best_guess_and_elimination(combinations, inv_combinations, combinations,colors,holes,scores) 
     print(str(result[0]))
     print(result[1]) 
@@ -52,6 +53,4 @@ def precompute_scores(outfile,word_file,colors,holes):
                 s = score2(x,y, colors, holes)            
                 g.write(str(i)+";"+str(j)+";"+s+"\n") 
 
-word_file = '/Users/mortenheinesorensen/projects/wordle/resources/Scrabble2019filtered.txt'
-outfile= '/Users/mortenheinesorensen/projects/wordle/resources/scores.txt'
-precompute_scores(outfile,word_file, 26,5)
+precompute_scores(get_score_file(),get_word_file(), 26,5)

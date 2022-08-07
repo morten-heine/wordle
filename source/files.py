@@ -1,6 +1,14 @@
 # LOAD FROM FILES
 import numpy
        
+
+def get_word_file():
+    return '/Users/mortenheinesorensen/projects/wordle/resources/Scrabble2019filtered.txt'
+
+def get_score_file():
+    return '/Users/mortenheinesorensen/projects/wordle/resources/scores.txt'
+
+
 # Read all words into array combinations and build up map inv_combinations from word to index.
 def all_words(colors,holes,combinations,inv_combinations, file):
     load_words(colors,holes,file,combinations,inv_combinations)

@@ -130,7 +130,7 @@ def play_game(all_combinations,inv_combinations,colors,holes,scores,decision_tre
 
 # Play all games from some number to some number
 def play_all_games(colors,holes,min_game,max_game,word_file,score_file,start_word):
-    print("Loading,8,1")
+    print('Load "*",8,1')
     combinations = []
     inv_combinations = {}
     all_words(colors,holes,combinations, inv_combinations, word_file)
