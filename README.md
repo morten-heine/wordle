@@ -6,4 +6,4 @@ It is possible with manual tinkering to make it as most 6 attempts, but this is 
 2. Run run.py to run all games with start word e.g. LARES
 3. Run wordle.sh to run all games with 8 start words in parallel.
 
-For more details see http://formalit.dk/wordle.pdf.
+For more details see http://formalit.dk/wordle.pdf and http://formalit.dk/WordleDemo.pdf.
