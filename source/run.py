@@ -3,8 +3,8 @@ from wordle import play_all_startwords
 from files import get_score_file, get_word_file
 
 def run_startwords():
-    min_startword = 0 # LARES
-    max_startword = 11 # LARES
+    min_startword = 6096 # LARES
+    max_startword = 6096 # LARES
     if len(sys.argv)==3:
         min_startword = int(sys.argv[1])
         max_startword  = int(sys.argv[2])
