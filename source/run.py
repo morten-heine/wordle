@@ -13,7 +13,6 @@ def run_games():
         max = int(sys.argv[2])
     if len(sys.argv)==2:
         startword = sys.argv[1]
-
     play_all_games(26,5,min,max,word_file,score_file,startword)
 
 run_games()

@@ -1,4 +1,4 @@
-# UTILITIES
+# PRECOMPUTE SCORES
 from wordle import *
 
 def best_start_word(colors,holes):
