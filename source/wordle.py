@@ -173,5 +173,5 @@ def play_all_startwords(colors,holes,word_file,score_file,min_startword,max_star
         if (min_startword <= com and com <= max_startword):
             play_all_games(colors,holes,0,len(combinations),start_word,skipOnMin7,combinations,inv_combinations,scores)
         com+=1
-    print("Playing games for start words from "+str(min_startword)+" to "+str(max_startword)+" completed at "++str(datetime.datetime.now()))
+    print("Playing games for start words from "+str(min_startword)+" to "+str(max_startword)+" completed at "+str(datetime.datetime.now()))
 
