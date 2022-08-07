@@ -128,9 +128,9 @@ def play_game(all_combinations,inv_combinations,colors,holes,scores,decision_tre
     output(ct2-ct1)
     return attempts
 
-# Play all games from some number to some number
-def play_all_games(colors,holes,min_game,max_game,word_file,score_file,start_word):
-    print('Load "*",8,1')
+# Play all games from some number to some number with given start word
+def play_all_games(colors,holes,min_game,max_game,word_file,score_file,start_word,skipOnMin7):
+    print("Starting with games")
     combinations = []
     inv_combinations = {}
     all_words(colors,holes,combinations, inv_combinations, word_file)
@@ -150,8 +150,23 @@ def play_all_games(colors,holes,min_game,max_game,word_file,score_file,start_wor
             output("-----------------------------")
             if (com>max_game):
                 return
+            if (maxatt > 6 and skipOnMin7):
+                print("Skipping remaining games")
+                break
         com += 1
     ct2 = datetime.datetime.now()
     print("Max attempts "+str(maxatt))
     print(ct2-ct1)
- 
+
+# Play all games for some range of start words 
+def play_all_startwords(word_file,score_file,min_startword,max_startword,skipOnMin7):
+    print("Starting with secret")
+    com = 0
+    combinations = []
+    inv_combinations = {}
+    all_words(26,5,combinations, inv_combinations, word_file)
+    for start_word in combinations:
+        if (min_startword <= com and com <= max_startword):
+            play_all_games(26,5,0,12971,word_file,score_file,start_word,skipOnMin7)
+        com+=1
+

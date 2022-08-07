@@ -1,8 +1,8 @@
-python run.py LARES &> ../output/8thread_1.txt &    
-python run.py CARES &> ../output/8thread_2.txt &    
-python run.py SERAI &> ../output/8thread_3.txt &    
-python run.py PHONY &> ../output/8thread_4.txt &    
-python run.py HARES &> ../output/8thread_5.txt &    
-python run.py HARIM &> ../output/8thread_6.txt &    
-python run.py HARKS &> ../output/8thread_7.txt &    
-python run.py HARLS &> ../output/8thread_8.txt &  
+python run.py 0   12 &> ../output/00000_00012.txt &    
+python run.py 13  25 &> ../output/00013_00025.txt &    
+python run.py 26  38 &> ../output/00026_00038.txt &    
+python run.py 39  49 &> ../output/00039_00049.txt &    
+python run.py 50  62 &> ../output/00050_00062.txt &    
+python run.py 63  75 &> ../output/00063_00075.txt &    
+python run.py 76  88 &> ../output/00076_00088.txt &    
+python run.py 89 100 &> ../output/00089_00100.txt &    
