@@ -16,7 +16,8 @@ from games import empty_game, update_game
 from decision_trees import empty_decision_tree, update_decision_tree, next_guess_from_tree
 
 def output(s):
-    print(s)
+    return 
+    #print(s)
 
 # Score of guess against secret using cache
 def score(guess,secret,colors,holes,inv_combinations,scores):
@@ -129,22 +130,18 @@ def play_game(all_combinations,inv_combinations,colors,holes,scores,decision_tre
     return attempts
 
 # Play all games from some number to some number with given start word
-def play_all_games(colors,holes,min_game,max_game,word_file,score_file,start_word,skipOnMin7):
-    print("Starting with games")
-    combinations = []
-    inv_combinations = {}
-    all_words(colors,holes,combinations, inv_combinations, word_file)
-    scores = []
-    all_scores(colors, holes, scores, score_file)
+def play_all_games(colors,holes,min_game,max_game,start_word,skipOnMin7,combinations,inv_combinations,scores):
+    print("Playing game for start word "+start_word)
     decision_tree = empty_decision_tree(start_word) 
     maxatt = 0
     com = 0
     ct1 = datetime.datetime.now()
-    print("Starting "+str(min_game)+" to "+str(max_game))
+    print("Playing game for secrets "+str(min_game)+" to "+str(max_game)+" at "+str(datetime.datetime.now()))
     for secret in combinations:
         if (min_game <= com and com <= max_game):
-            output("Playing Game "+str(com))
+            print("Playing Game for secret "+str(com)+" at "+str(datetime.datetime.now()))
             attempt = play_game(combinations,inv_combinations,colors,holes,scores,decision_tree,start_word,secret)
+            print("Playing Game for secret "+str(com)+" completed at "+str(datetime.datetime.now()))
             if (attempt>maxatt):
                 maxatt=attempt
             output("-----------------------------")
@@ -155,18 +152,26 @@ def play_all_games(colors,holes,min_game,max_game,word_file,score_file,start_wor
                 break
         com += 1
     ct2 = datetime.datetime.now()
+    print("Playing game for secrets "+str(min_game)+" to "+str(max_game)+" completed at "+str(datetime.datetime.now()))
     print("Max attempts "+str(maxatt))
     print(ct2-ct1)
 
 # Play all games for some range of start words 
-def play_all_startwords(word_file,score_file,min_startword,max_startword,skipOnMin7):
-    print("Starting with secret")
+def play_all_startwords(colors,holes,word_file,score_file,min_startword,max_startword,skipOnMin7):
+    print("Playing games for start words from "+str(min_startword)+" to "+str(max_startword))+" at "+str(datetime.datetime.now())
+    combinations = []
+    inv_combinations = {}
+    all_words(colors,holes,combinations, inv_combinations, word_file)
+    scores = []
+    all_scores(colors, holes, scores, score_file)
+
     com = 0
     combinations = []
     inv_combinations = {}
-    all_words(26,5,combinations, inv_combinations, word_file)
+    all_words(colors,holes,combinations, inv_combinations, word_file)
     for start_word in combinations:
         if (min_startword <= com and com <= max_startword):
-            play_all_games(26,5,0,12971,word_file,score_file,start_word,skipOnMin7)
+            play_all_games(colors,holes,0,len(combinations),start_word,skipOnMin7,combinations,inv_combinations,scores)
         com+=1
+    print("Playing games for start words from "+str(min_startword)+" to "+str(max_startword))+" completed at "++str(datetime.datetime.now())
 
