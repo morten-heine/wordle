@@ -140,8 +140,11 @@ def play_all_games(colors,holes,min_game,max_game,start_word,skipOnMin7,combinat
     for secret in combinations:
         if (min_game <= com and com <= max_game):
             print("Playing Game for secret "+str(com)+" at "+str(datetime.datetime.now()))
+            ct3 = datetime.datetime.now()
             attempt = play_game(combinations,inv_combinations,colors,holes,scores,decision_tree,start_word,secret)
             print("Playing Game for secret "+str(com)+" completed at "+str(datetime.datetime.now()))
+            ct4 = datetime.datetime.now()
+            print(ct4-ct3)
             if (attempt>maxatt):
                 maxatt=attempt
             output("-----------------------------")
@@ -165,6 +168,7 @@ def play_all_startwords(colors,holes,word_file,score_file,min_startword,max_star
     scores = []
     all_scores(colors, holes, scores, score_file)
 
+    ct1 = datetime.datetime.now()
     com = 0
     combinations = []
     inv_combinations = {}
@@ -174,4 +178,6 @@ def play_all_startwords(colors,holes,word_file,score_file,min_startword,max_star
             play_all_games(colors,holes,0,len(combinations),start_word,skipOnMin7,combinations,inv_combinations,scores)
         com+=1
     print("Playing games for start words from "+str(min_startword)+" to "+str(max_startword)+" completed at "+str(datetime.datetime.now()))
+    ct2 = datetime.datetime.now()
+    print(ct2-ct1)
 
