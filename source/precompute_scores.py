@@ -1,5 +1,5 @@
 # PRECOMPUTE SCORES
-from wordle import all_words, load_scores, best_guess_and_elimination
+from wordle import all_words, all_scores, best_guess_and_elimination
 from files import get_score_file, get_word_file
 
 def best_start_word(colors,holes):
