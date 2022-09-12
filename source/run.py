@@ -42,6 +42,6 @@ def run_worst_elimination():
     
 
 #run_play_all_startwords()
-#run_play_game()
+run_play_game()
 #run_best_guess_and_elimination()
-run_worst_elimination()
+#run_worst_elimination()
