@@ -4,12 +4,12 @@
 def empty_decision_tree(start_word):
     return (start_word,{})
 
-# Update cache based on partial game. The cache will only be missing the last guess and corresponding score.
+# Based on partial game [G0,S0,...Gn,Sn], update cache with S(n-1) -> Gn. 
 def update_decision_tree(decision_tree,game):
     g, mp = decision_tree
-    for i in range(len(game)):
-        if (i%2==1 and i<len(game)-1):
-            if (not (game[i] in mp.keys())):
+    for i in range(len(game)-2):
+        if i%2==1:
+            if not game[i] in mp.keys():
                 mp[game[i]]= empty_decision_tree(game[i+1])    
             g, mp = mp[game[i]]
     return
