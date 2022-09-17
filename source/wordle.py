@@ -17,7 +17,7 @@ from decision_trees import empty_decision_tree, update_decision_tree, next_guess
 
 def output(s):
     return 
-    #print(s)
+    print(s)
 
 # Score of guess against secret using cache
 def score(guess,secret,colors,holes,inv_combinations,scores):
@@ -77,10 +77,7 @@ def best_guess_and_elimination(all_combinations,inv_combinations, possible_guess
     return (min_possible_guesses,best_guess,possible_guess)
     
 # Play one round, i.e. make guess and get score
-def play_round(guess_score,possible_guesses,guess,attempts,colors,holes,all_combinations,inv_combinations,scores, decision_tree, game):
-    attempts += 1
-    new_possible_guesses = filter_combinations(possible_guesses, guess, guess_score,colors,holes,False,inv_combinations,scores)[0]
-    output("Remainning possible guesses "+str(len(new_possible_guesses)))
+def play_round(guess_score,new_possible_guesses,guess,colors,holes,all_combinations,inv_combinations,scores, decision_tree, game):
     guess = next_guess_from_tree(decision_tree,game)
     if (guess!=0):
         output("Making cached guess "+guess)    
@@ -90,7 +87,7 @@ def play_round(guess_score,possible_guesses,guess,attempts,colors,holes,all_comb
         guess = result[1]
         possible = result[2]
         output("Making "+("possible" if possible else "impossible")+" guess "+guess+" with maximum "+str(remaining)+" possible guess left")    
-    return (new_possible_guesses,guess, attempts)
+    return guess
 
 # Play one game
 def play_game(all_combinations,inv_combinations,colors,holes,scores,decision_tree,start_word,secret):
@@ -111,11 +108,11 @@ def play_game(all_combinations,inv_combinations,colors,holes,scores,decision_tre
 
     if guess_score==22222:
         done = True
-    while (not(done)):        
-        result = play_round(guess_score,possible_guesses,guess,attempts,colors,holes,all_combinations,inv_combinations,scores,decision_tree, game)
-        new_possible_guesses = result[0]
-        guess = result[1]
-        attempts= result[2]
+    while (not(done)):
+        new_possible_guesses = filter_combinations(possible_guesses, guess, guess_score,colors,holes,False,inv_combinations,scores)[0]
+        output("Remainning possible guesses "+str(len(new_possible_guesses)))        
+        guess = play_round(guess_score,new_possible_guesses,guess,colors,holes,all_combinations,inv_combinations,scores,decision_tree, game)
+        attempts += 1
         guess_score = score(guess,secret,colors,holes,inv_combinations,scores)
         output("Score "+str(guess_score)) 
         if guess_score==22222: 
