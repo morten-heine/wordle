@@ -7,7 +7,7 @@ def best_start_word(colors,holes):
     inv_combinations = {}
     scores = []
     all_words(colors,holes,combinations,inv_combinations,get_word_file())
-    load_scores(get_score_file(),scores,26,5)
+    all_scores(get_score_file(),scores,26,5)
     result = best_guess_and_elimination(combinations, inv_combinations, combinations,colors,holes,scores) 
     print(str(result[0]))
     print(result[1]) 
