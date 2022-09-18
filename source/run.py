@@ -10,7 +10,7 @@ def run_play_all_secrets_all_startwords():
     if len(sys.argv)==3:
         min_startword = int(sys.argv[1])
         max_startword  = int(sys.argv[2])
-    play_all_startwords(26,5,get_word_file(),get_score_file(),min_startword,max_startword,True)
+    play_all_startwords(26,5,get_word_file(),get_score_file(),min_startword,max_startword,False)
 
 def run_play_all_secrets_one_startword():
     min_game = 0
