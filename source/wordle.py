@@ -16,8 +16,8 @@ from games import empty_game, update_game
 from decision_trees import empty_decision_tree, update_decision_tree, next_guess_from_tree
 
 def output(s):
-    return 
     print(s)
+    return 
 
 # Score of guess against secret using cache
 def score(guess,secret,colors,holes,inv_combinations,scores):
@@ -77,17 +77,24 @@ def best_guess_and_elimination(all_combinations,inv_combinations, possible_guess
     return (min_possible_guesses,best_guess,possible_guess)
     
 # Play one round, i.e. make guess and get score
-def play_round(guess_score,new_possible_guesses,guess,colors,holes,all_combinations,inv_combinations,scores, decision_tree, game):
-    guess = next_guess_from_tree(decision_tree,game)
-    if (guess!=0):
-        output("Making cached guess "+guess)    
+def play_round(guess_score,possible_guesses,guess,colors,holes,all_combinations,inv_combinations,scores, decision_tree, game, secret):
+    new_possible_guesses, new_guess = next_guess_from_tree(decision_tree,game)
+    if (new_guess!=0):
+        output("Making cached guess "+str(new_guess))
     else:
+        new_possible_guesses = filter_combinations(possible_guesses, guess, guess_score,colors,holes,False,inv_combinations,scores)[0]
+        output("Remainning possible guesses "+str(len(new_possible_guesses)))
         result = best_guess_and_elimination(all_combinations, inv_combinations, new_possible_guesses,colors,holes,scores) 
         remaining = result[0]
-        guess = result[1]
+        new_guess = result[1]
         possible = result[2]
-        output("Making "+("possible" if possible else "impossible")+" guess "+guess+" with maximum "+str(remaining)+" possible guess left")    
-    return guess
+        output("Making "+("possible" if possible else "impossible")+" guess "+new_guess+" with maximum "+str(remaining)+" possible guess left")    
+    guess_score = score(new_guess,secret,colors,holes,inv_combinations,scores)
+    output("Score "+str(guess_score)) 
+    update_game(game,new_guess, guess_score)
+    update_decision_tree(decision_tree,new_possible_guesses,game)
+
+    return (new_possible_guesses,new_guess, guess_score)
 
 # Play one game
 def play_game(all_combinations,inv_combinations,colors,holes,scores,decision_tree,start_word,secret):
@@ -104,23 +111,15 @@ def play_game(all_combinations,inv_combinations,colors,holes,scores,decision_tre
     
     game = empty_game()
     update_game(game, guess, guess_score)
-    update_decision_tree(decision_tree,game)
+    update_decision_tree(decision_tree,all_combinations,game)
 
     if guess_score==22222:
         done = True
     while (not(done)):
-        new_possible_guesses = filter_combinations(possible_guesses, guess, guess_score,colors,holes,False,inv_combinations,scores)[0]
-        output("Remainning possible guesses "+str(len(new_possible_guesses)))        
-        guess = play_round(guess_score,new_possible_guesses,guess,colors,holes,all_combinations,inv_combinations,scores,decision_tree, game)
+        possible_guesses, guess, guess_score = play_round(guess_score,possible_guesses,guess,colors,holes,all_combinations,inv_combinations,scores,decision_tree, game, secret)
         attempts += 1
-        guess_score = score(guess,secret,colors,holes,inv_combinations,scores)
-        output("Score "+str(guess_score)) 
         if guess_score==22222: 
             done = True
-        else:
-            possible_guesses=new_possible_guesses
-            update_game(game,guess, guess_score)
-            update_decision_tree(decision_tree,game)
     output("Correct guess in "+str(attempts)+" attempts")
     ct2 = datetime.datetime.now()
     output(ct2-ct1)
@@ -129,7 +128,7 @@ def play_game(all_combinations,inv_combinations,colors,holes,scores,decision_tre
 # Play all games from some number to some number with given start word
 def play_all_games(colors,holes,min_game,max_game,start_word,skipOnMin7,combinations,inv_combinations,scores):
     print("Playing game for start word "+start_word)
-    decision_tree = empty_decision_tree(start_word) 
+    decision_tree = empty_decision_tree(combinations,start_word) 
     maxatt = 0
     com = 0
     ct1 = datetime.datetime.now()
@@ -144,7 +143,7 @@ def play_all_games(colors,holes,min_game,max_game,start_word,skipOnMin7,combinat
             print(ct4-ct3)
             if (attempt>maxatt):
                 maxatt=attempt
-            output("-----------------------------")
+            output("-------------------------------------------")
             if (com>max_game):
                 return
             if (maxatt > 6 and skipOnMin7):

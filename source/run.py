@@ -1,5 +1,6 @@
 import sys
-from decision_trees import empty_decision_tree
+from games import empty_game, update_game
+from decision_trees import empty_decision_tree, update_decision_tree, next_guess_from_tree
 from wordle import play_all_startwords, play_all_games, play_game, best_guess_and_elimination, worst_elimination
 from files import get_score_file, get_word_file, all_words, all_scores
 
@@ -20,14 +21,14 @@ def run_play_all_secrets_one_startword():
     all_scores(26, 5, scores, get_score_file())
     play_all_games(26,5,0,12972,start_word,False,combinations,inv_combinations,scores)
 
-def run_play_some_secrets_one_startword(number):
+def run_play_some_secrets_one_startword(fro,to):
     start_word = 'LARES'
     combinations = []
     inv_combinations = {}
     all_words(26,5,combinations, inv_combinations, get_word_file())
     scores = []
     all_scores(26, 5, scores, get_score_file())
-    play_all_games(26,5,0,number,start_word,False,combinations,inv_combinations,scores)
+    play_all_games(26,5,fro,to,start_word,False,combinations,inv_combinations,scores)
 
 def run_play_one_secret_one_startword():
     start_word = 'LARES' # LARES
@@ -56,10 +57,32 @@ def run_worst_elimination():
     all_scores(26, 5, scores, get_score_file())
     worst_elimination('LARES',combinations,26,5,1000000,inv_combinations,scores)
     
+def run_test_cache():
+    combinations = []
+    inv_combinations = {}
+    all_words(26,5,combinations, inv_combinations, get_word_file())
 
+    decision_tree = empty_decision_tree(combinations, 'LARES')
+    game = empty_game()
+    update_game(game, 'LARES', '1020')
+    update_decision_tree(decision_tree,combinations,game)
+    update_game(game, 'ADMEN', '21020')
+    update_decision_tree(decision_tree,combinations,game)
+    update_game(game, 'BITCH', '10000')
+    update_decision_tree(decision_tree,combinations,game)
+    update_game(game, 'ABBED', '22222')
+    update_decision_tree(decision_tree,combinations,game)
+
+    game = empty_game()
+    update_game(game, 'LARES', '1020')
+    remaining, guess = next_guess_from_tree(decision_tree,game)
+    update_game(game, 'ADMEN', '20020')
+    remaining, guess = next_guess_from_tree(decision_tree,game)
+    
 #run_play_all_secrets_all_startwords()
 run_play_all_secrets_one_startword()
-#run_play_some_secrets_one_startword(1000)
+#run_play_some_secrets_one_startword(18,20)
 #run_play_one_secret_one_startword()
 #run_best_guess_and_elimination()
 #run_worst_elimination()
+#run_test_cache()
