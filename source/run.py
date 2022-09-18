@@ -13,22 +13,19 @@ def run_play_all_secrets_all_startwords():
     play_all_startwords(26,5,get_word_file(),get_score_file(),min_startword,max_startword,True)
 
 def run_play_all_secrets_one_startword():
+    min_game = 0
+    max_game  = 12972
     start_word = 'LARES'
+    if len(sys.argv)==3:
+        min_game = int(sys.argv[1])
+        max_game  = int(sys.argv[2])
     combinations = []
     inv_combinations = {}
     all_words(26,5,combinations, inv_combinations, get_word_file())
     scores = []
     all_scores(26, 5, scores, get_score_file())
-    play_all_games(26,5,0,12972,start_word,False,combinations,inv_combinations,scores)
+    play_all_games(26,5,min_game,max_game,start_word,False,combinations,inv_combinations,scores)
 
-def run_play_some_secrets_one_startword(fro,to):
-    start_word = 'LARES'
-    combinations = []
-    inv_combinations = {}
-    all_words(26,5,combinations, inv_combinations, get_word_file())
-    scores = []
-    all_scores(26, 5, scores, get_score_file())
-    play_all_games(26,5,fro,to,start_word,False,combinations,inv_combinations,scores)
 
 def run_play_one_secret_one_startword():
     start_word = 'LARES' # LARES
@@ -79,9 +76,8 @@ def run_test_cache():
     update_game(game, 'ADMEN', '20020')
     remaining, guess = next_guess_from_tree(decision_tree,game)
     
-#run_play_all_secrets_all_startwords()
-run_play_all_secrets_one_startword()
-#run_play_some_secrets_one_startword(18,20)
+run_play_all_secrets_all_startwords()
+#run_play_all_secrets_one_startword()
 #run_play_one_secret_one_startword()
 #run_best_guess_and_elimination()
 #run_worst_elimination()
