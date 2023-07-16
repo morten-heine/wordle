@@ -1,7 +1,6 @@
 # LOAD FROM FILES
 import numpy
        
-
 def get_word_file():
     return '/Users/mortenheinesorensen/projects/wordle/resources/Scrabble2019filtered.txt'
 
